@@ -1,0 +1,23 @@
+.header-section {
+    min-height: 550px;
+    background-image: url("../../assets/headerBackGround.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.header-section h1 {
+    color: #1f2937;
+}
+
+.header-section p {
+    max-width: 500px;
+}
+
+@media (max-width: 768px) {
+    .header-section {
+        min-height: 500px;
+        background-position: right center;
+        text-align: center;
+    }
+}

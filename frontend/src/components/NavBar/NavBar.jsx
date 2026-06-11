@@ -1,0 +1,82 @@
+import { Link } from "react-router-dom";
+import logo from "../../assets/logo.png";
+function Navbar() {
+  return (
+   <nav className="navbar navbar-expand-lg bg-white shadow-sm py-3">
+      <div className="container">
+
+        {/* Logo Left */}
+        <Link className="navbar-brand" to="/">
+          <img
+            src={logo}
+            alt="SeatAware Ireland"
+            height="45"
+          />
+        </Link>
+
+        {/* Mobile Toggle */}
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+
+        <div className="collapse navbar-collapse" id="navbarNav">
+
+          {/* Center Links */}
+          <ul className="navbar-nav mx-auto">
+
+            <li className="nav-item px-2">
+              <Link className="nav-link text-dark" to="/">
+                Home
+              </Link>
+            </li>
+
+            <li className="nav-item px-2">
+              <Link className="nav-link text-dark" to="/reports">
+                Reports
+              </Link>
+            </li>
+
+            <li className="nav-item px-2">
+              <Link className="nav-link text-dark" to="/map">
+                Map
+              </Link>
+            </li>
+
+            <li className="nav-item px-2">
+              <Link className="nav-link text-dark" to="/dashboard">
+                Dashboard
+              </Link>
+            </li>
+
+            <li className="nav-item px-2">
+              <Link className="nav-link text-dark" to="/awareness">
+                Awareness
+              </Link>
+            </li>
+
+          </ul>
+  
+          <div className="d-flex gap-2">
+
+            <Link className="btn btn-outline-success" to="/login">
+              Login
+            </Link>
+
+            <Link className="btn btn-success" to="/register">
+              Register
+            </Link>
+
+          </div>
+
+        </div>
+      </div>
+    </nav>
+  );
+}
+
+export default Navbar;

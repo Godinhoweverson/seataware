@@ -1,0 +1,26 @@
+<svg width="520" height="120" viewBox="0 0 520 120" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">SeatAware Ireland Logo</title>
+  <desc id="desc">Green location pin with seat icon and grey Ireland shape, with SeatAware Ireland text.</desc>
+
+  <!-- Icon background -->
+  <path d="M62 8C34 8 12 30 12 58c0 37 50 58 50 58s50-21 50-58C112 30 90 8 62 8z" fill="#16A34A"/>
+  <circle cx="62" cy="57" r="34" fill="#FFFFFF"/>
+
+  <!-- Seat icon -->
+  <rect x="35" y="36" width="18" height="16" rx="5" fill="#16A34A"/>
+  <path d="M36 57c0-5 4-9 9-9h7c5 0 9 4 9 9v25H36V57z" fill="#16A34A"/>
+  <path d="M61 72h27c5 0 9 4 9 9v2H61V72z" fill="#16A34A"/>
+  <path d="M41 84h51" stroke="#16A34A" stroke-width="7" stroke-linecap="round"/>
+
+  <!-- Simplified grey Ireland silhouette -->
+  <path d="M76 31c7 2 10 8 9 13 6 2 8 8 4 13 5 6 1 15-6 17-2 8-12 10-18 5-8 2-13-4-12-11-6-4-5-12 1-15-3-8 4-15 12-13 1-6 5-10 10-9z" fill="#9CA3AF"/>
+
+  <!-- Wordmark -->
+  <text x="135" y="58" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="700" letter-spacing="-1">
+    <tspan fill="#1F2937">Seat</tspan><tspan fill="#16A34A">Aware</tspan>
+  </text>
+
+  <line x1="138" y1="78" x2="222" y2="78" stroke="#16A34A" stroke-width="3"/>
+  <text x="238" y="88" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="600" letter-spacing="8" fill="#6B7280">IRELAND</text>
+  <line x1="384" y1="78" x2="500" y2="78" stroke="#16A34A" stroke-width="3"/>
+</svg>
