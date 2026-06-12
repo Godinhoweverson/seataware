@@ -63,11 +63,11 @@ function Navbar() {
   
           <div className="d-flex gap-2">
 
-            <Link className="btn btn-outline-success" to="/login">
+            <Link className="btn btn-outline-success btn-sm" to="/login">
               Login
             </Link>
 
-            <Link className="btn btn-success" to="/register">
+            <Link className="btn btn-success btn-sm" to="/register">
               Register
             </Link>
 

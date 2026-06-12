@@ -4,7 +4,8 @@ import { BrowserRouter } from "react-router-dom";
 //CSS
 import './index.css'
 import './components/NavBar/NavBar.css';
-import './components/Header/Header.css'
+import './components/Header/header.css';
+import './pages/pages-css/Home.css';
 import App from './App.jsx'
 // Bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
