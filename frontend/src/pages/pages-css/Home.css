@@ -61,15 +61,39 @@
 }
 
 .bg-green-soft {
-  background-color: #dcfce7;
+  background-color: #dcfce7!important;
 }
 
 .bg-purple-soft {
-  background-color: #ede9fe;
+  background-color: #ede9fe!important;
 }
 
 .bg-yellow-soft {
-  background-color: #fef3c7;
+  background-color: #fef3c7!important;
+}
+
+.bg-blue-soft{
+  background-color: #b9d6fd!important;
+}
+
+.awareness{
+  background-color:#f8fafc;
+}
+.awareness-card{
+  transition: all 0.2s ease;
+ }
+ 
+.awareness-card:hover {
+  background-color: #f8fafc;
+  transform: translateY(-3px);
+}
+
+.involved{
+  background-color:#f8fafc;
+}
+
+.bg-gradient-purple{
+  background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 50%, #ddd6fe 100%);
 }
 
 @media (max-width: 768px) {
