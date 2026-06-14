@@ -2,14 +2,14 @@
 import Navbar from "../components/Navbar/NavBar.jsx";
 import Footer from "../components/Footer/Footer.jsx"; 
 
-function Register() {
+function Map() {
   return (
     <>
       <Navbar />
-      <h1>Register</h1>
+      <h1>Map</h1>
       <Footer/>
     </>
   )
-}
+}               
 
-export default Register;
+export default Map;

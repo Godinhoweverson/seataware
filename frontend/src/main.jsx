@@ -6,6 +6,8 @@ import './index.css'
 import './components/NavBar/NavBar.css';
 import './components/Header/header.css';
 import './pages/pages-css/Home.css';
+import './pages/pages-css/Awareness.css';
+
 import App from './App.jsx'
 // Bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';

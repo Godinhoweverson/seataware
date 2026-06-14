@@ -5,7 +5,6 @@ function Navbar() {
    <nav className="navbar navbar-expand-lg bg-white shadow-sm py-3">
       <div className="container">
 
-        {/* Logo Left */}
         <Link className="navbar-brand" to="/">
           <img
             src={logo}
@@ -14,7 +13,6 @@ function Navbar() {
           />
         </Link>
 
-        {/* Mobile Toggle */}
         <button
           className="navbar-toggler"
           type="button"
@@ -26,7 +24,6 @@ function Navbar() {
 
         <div className="collapse navbar-collapse" id="navbarNav">
 
-          {/* Center Links */}
           <ul className="navbar-nav mx-auto">
 
             <li className="nav-item px-2">

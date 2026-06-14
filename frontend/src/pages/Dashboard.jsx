@@ -2,14 +2,14 @@
 import Navbar from "../components/Navbar/NavBar.jsx";
 import Footer from "../components/Footer/Footer.jsx"; 
 
-function Register() {
+function Dashboard() {
   return (
     <>
       <Navbar />
-      <h1>Register</h1>
+      <h1>Dashboard</h1>
       <Footer/>
     </>
   )
-}
+}       
 
-export default Register;
+export default Dashboard;
