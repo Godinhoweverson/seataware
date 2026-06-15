@@ -1,0 +1,15 @@
+.custom-select{
+    border: 2px solid #198754!important;
+    border-radius: 8px!important;
+    padding: 12px!important;
+    transition: all 0.3s ease!important;
+}
+
+.custom-select:focus{
+    border-color: #198754!important;
+    box-shadow: 0 0 5px rgba(25, 135, 84, 0.5)!important;
+}       
+
+.form-label{
+    font-weight: bold;  
+}

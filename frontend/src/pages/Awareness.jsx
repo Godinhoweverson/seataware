@@ -12,7 +12,9 @@ import heart from '../assets/heart.png';
 function Awareness(){
     return (
         <>
+            {/*Navbar component */}
             <Navbar />
+                {/*Awareness page content */}
                 <div className="awareness-page d-flex align-items-center">
                     <div className="container">
                         <div className="row">
@@ -27,6 +29,7 @@ function Awareness(){
                         </div>
                     </div>
                 </div>
+                
                 <div className="container my-5">
                     <div className="row">
                         <div className="col-12">
@@ -75,8 +78,8 @@ function Awareness(){
                     </div>
                 </div>
         
-                    <div className="container good-to-know-section">
-                        <div className="row h-100d-flex align-items-center">
+                    <div className="container good-to-know-section my-5 rounded">
+                        <div className="row h-100 d-flex align-items-center">
                             <div className="col-12 col-lg-3 text-center">
                                 <img src={heart} alt="Heart Icon" className="card-img-top"/>
                             </div>
@@ -95,9 +98,7 @@ function Awareness(){
                                 </p>
                             </div>
                         </div>
-                    </div> 
-             
-                
+                    </div>   
             <Footer/>
         </>
     )

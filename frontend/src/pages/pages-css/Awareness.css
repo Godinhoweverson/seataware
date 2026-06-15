@@ -7,17 +7,22 @@
 }
 
 .good-to-know-section {
-    min-height: 300px;
+    min-height: 200px;
     background-image: url("../../assets/goodToKnow-background.png");
-    background-size: cover;
+    background-size:cover;
     background-position: center;
     background-repeat: no-repeat;
+}
+
+.card-img-top{ 
+    width: 100%;
+    height: auto;
 }
 
 @media (max-width: 768px) {
     .awareness-page {
         min-height: 500px;
         background-position: 5% center;
-        text-align: center;
+        text-align: left;
     }
 }
