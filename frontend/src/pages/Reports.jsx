@@ -48,7 +48,7 @@ function Reports() {
                         </div>
                     </div>
                     <div className="reports_issue_btn col-12 col-lg-6 d-flex align-items-center justify-content-lg-end mb-3 mb-lg-0">
-                        <Link className="issue_btn btn btn-success btn-sm" to="/report-issue">Report an Issue</Link>
+                        <Link className="issue_btn btn btn-success btn-sm" to="/reportsIssue">Report an Issue</Link>
                     </div>
                 </div>
                 
