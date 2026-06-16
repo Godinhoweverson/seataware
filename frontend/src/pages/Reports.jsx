@@ -2,8 +2,40 @@
 import Navbar from "../components/Navbar/NavBar.jsx";
 import Footer from "../components/Footer/Footer.jsx"; 
 
+//Icons
+import busBlue from "../assets/BusBlue.png";
+
+
 import { Link } from "react-router-dom";
 function Reports() {
+    // TO be Deleted
+    const reports = [
+        {
+            route: "46A - Ranelagh to City Centre",
+            status: "Occupied Priority Seat",
+            badgeClass: "bg-success-subtle text-success",
+            description:
+            "Priority seats were occupied even though other passengers needed them.",
+            date: "May 30, 2024, 09:15am",
+        },
+        {
+            route: "14B - Cork to Dublin",
+            status: "Occupied Priority Seat",
+            badgeClass: "bg-danger-subtle text-danger",
+            description:
+            "Priority seats were occupied even though other passengers needed them.",
+            date: "May 30, 2024, 09:15am",
+        },
+        {
+            route: "46A - Central Park to City Centre",
+            status: "Occupied Priority Seat",
+            badgeClass: "bg-primary-subtle text-primary",
+            description:
+            "Priority seats were occupied even though other passengers needed them.",
+            date: "May 30, 2024, 09:15am",
+        },
+    ];
+    //***************/
     return (
         <>
             <Navbar />
@@ -21,7 +53,7 @@ function Reports() {
                 </div>
                 
             </div>
-            <div className="reports_filter container">
+            <div className="reports_filter container mt-5">
             <div className="row g-4">
 
                 <div className="col-12 col-md-6 col-lg-3">
@@ -75,17 +107,45 @@ function Reports() {
             </div>
             <div className="container search_reports mt-5">
                 <form className="form-inline my-2 my-lg-0 d-flex justify-content-center align-items-center gap-2">
-                    <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
+                    <input className="form-control mr-sm-2 custom-select" type="search" placeholder="Search" aria-label="Search"/>
                     <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
             </div>
             <div className="container mt-5">
-                <ul className="row g-4 d-flex justify-content-start align-items-center">
-                    <li className="col-auto"><p>All Reports</p></li>
-                    <li className="col-auto"><p>Recent</p></li>
-                    <li className="col-auto"><p>Popular</p></li>
-                    <li className="col-auto"><p>Resolved</p></li>
+                <ul className="row g-4 d-flex justify-content-start align-items-center list-unstyled">
+                    <li className="col-auto">All Reports</li>
+                    <li className="col-auto">Recent</li>
+                    <li className="col-auto">Popular</li>
+                    <li className="col-auto">Resolved</li>
                 </ul>
+            </div>
+            <div className="reports-container container my-5">
+                {reports.map((report, index) => (
+                <div
+                    key={index}
+                    className="report d-flex align-items-start gap-4 w-100 py-3 border-bottom border-tertiary"
+                >
+                    <div className="transport-icon flex-shrink-0">
+                    <img src={busBlue} alt="Bus icon" width="80" />
+                    </div>
+
+                    <div className="transport-info flex-grow-1">
+                    <div className="d-flex flex-column flex-md-row justify-content-between align-items-start gap-2 mb-2">
+                        <h5 className="fw-bold mb-0">{report.route}</h5>
+
+                        <span
+                        className={`rounded fw-bold text-center px-2 py-1 small ${report.badgeClass}`}
+                        >
+                        {report.status}
+                        </span>
+                    </div>
+
+                    <p className="text-muted mb-2">{report.description}</p>
+
+                    <p className="text-muted small mb-0">{report.date}</p>
+                    </div>
+                </div>
+                ))}
             </div>
             <Footer/>
         </>

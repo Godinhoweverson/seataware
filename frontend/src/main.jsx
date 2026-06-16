@@ -3,7 +3,6 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from "react-router-dom";
 //CSS
 import './index.css'
-import './components/NavBar/NavBar.css';
 import './components/Header/header.css';
 import './pages/pages-css/Home.css';
 import './pages/pages-css/Awareness.css';

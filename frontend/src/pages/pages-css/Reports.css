@@ -1,7 +1,6 @@
 .custom-select{
-    border: 2px solid #198754!important;
+    border: 2px solid #686969!important;
     border-radius: 8px!important;
-    padding: 12px!important;
     transition: all 0.3s ease!important;
 }
 
@@ -12,4 +11,17 @@
 
 .form-label{
     font-weight: bold;  
+}
+
+.col-auto{
+  transition: all 0.2s ease;
+ }
+ 
+.col-auto:hover {
+  border-bottom: 3px solid #198754;
+  transform: translateY(-1px);
+}
+
+.reports-container{
+    min-height: 460px;
 }
