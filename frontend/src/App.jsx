@@ -9,7 +9,9 @@ import Reports from './pages/Reports'
 import ReportsIssue from './pages/ReportsIssue'
 import Map from './pages/Map'
 import Dashboard from './pages/Dashboard'
-import Awareness from './pages/Awareness' 
+import Awareness from './pages/Awareness'
+import Register from './pages/Register'
+import Login from './pages/Login'
 
 import './App.css'
 
@@ -24,6 +26,8 @@ function App() {
         <Route path="/map" element={<Map />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/awareness" element={<Awareness />} />
+        <Route path="/register" element={<Register/>} />
+        <Route path="/login" element={<Login/>} />
       </Routes>
     </>
   )

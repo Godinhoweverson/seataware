@@ -1,0 +1,30 @@
+/* .form-container{
+    min-height: 910px;
+} */
+
+.form-image{
+    object-fit: cover;
+}
+
+.forms .form-control,
+.forms .form-select {
+    border-radius: 12px;
+    padding: 12px;
+    border: 1px solid #d1d5db;
+}
+
+.forms .form-control:focus,
+.forms .form-select:focus{
+    border-color: #198754;
+    box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.15);
+}
+
+.form-subContainer{
+        padding: 3rem;
+    }
+
+@media(max-width:420px){
+    .form-subContainer{
+        padding: 1rem;
+    }
+}

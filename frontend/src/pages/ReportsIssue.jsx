@@ -1,33 +1,11 @@
 //Components
-import Navbar from "../components/Navbar/NavBar.jsx";
+import Navbar from "../components/NavBar/NavBar.jsx"
 import Footer from "../components/Footer/Footer.jsx";
+import Form from "../components/Form/Form.jsx";
 
-//Images
-import reportIssueIllustration from "../assets/report_issue_illustration.png";
+function ReportsIssue() {
 
-function ReportsIssue() {   
-    return (    
-       <>
-        <Navbar />
-          <div className="container my-5 report-form-container">
-            <div className="row justify-content-center p-3">
-              <div className="col-12 col-xl-10">
-                <div className="card border-0 shadow-lg rounded-4 overflow-hidden">
-                  <div className="row g-0">
-                    <div className="col-12 col-lg-7 p-4 p-lg-5">
-                      <span className="badge text-bg-success mb-3">
-                        Report Issue
-                      </span>
-
-                      <h1 className="fw-bold mb-2">
-                        Report an Issue
-                      </h1>
-
-                      <p className="text-muted mb-4">
-                        Help us improve public transport by submitting a report.
-                      </p>
-
-                      <form className="report-form">
+    const form = ( <form className="forms">
 
                         <div className="mb-3">
                           <label htmlFor="issueType" className="form-label fw-semibold">
@@ -94,26 +72,15 @@ function ReportsIssue() {
                           Submit Report
                         </button>
 
-                      </form>
-                    </div>
+                      </form>);
 
-                    <div className="col-12 col-lg-5 d-none d-lg-block">
-                      <img
-                        src={reportIssueIllustration}
-                        alt="Report Issue Illustration"
-                        className="img-fluid h-100 w-100 report-issue-image"
-                      />
-                    </div>
-
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </div>
+    return (    
+       <>
+        <Navbar />
+        <Form title={"Report an Issue"} heading={"Report an Issue"} form={form}/>
         <Footer/>    
        </> 
-    )
+      )
 }
 
 export default ReportsIssue;

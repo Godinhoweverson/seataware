@@ -7,7 +7,7 @@ import './components/Header/header.css';
 import './pages/pages-css/Home.css';
 import './pages/pages-css/Awareness.css';
 import './pages/pages-css/Reports.css';
-import './pages/pages-css/ReportIssue.css';
+import './pages/pages-css/Form.css';
 
 import App from './App.jsx'
 // Bootstrap
