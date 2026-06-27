@@ -8,6 +8,7 @@ import './pages/pages-css/Home.css';
 import './pages/pages-css/Awareness.css';
 import './pages/pages-css/Reports.css';
 import './pages/pages-css/Form.css';
+import './pages/pages-css/Map.css';
 
 import App from './App.jsx'
 // Bootstrap
