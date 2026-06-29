@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function Header(){
     return(
         <>
@@ -15,13 +17,9 @@ function Header(){
                         </p>
 
                         <div className="d-flex gap-3 justify-content-center justify-content-lg-start">
-                            <button className="btn btn-success btn-sm">
-                                Report an Issue
-                            </button>
+                            <Link className="issue_btn btn btn-success btn-sm fw-bold" to="/reportsIssue">Report an Issue</Link>
 
-                            <button className="btn btn-outline-success btn-sm">
-                                View Reports
-                            </button>
+                            <Link className="issue_btn btn btn-sm btn-outline-success fw-bold" to="/reports">Reports</Link>
                         </div>
                     </div>
                     </div>
