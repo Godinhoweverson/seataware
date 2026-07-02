@@ -1,6 +1,20 @@
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
+import { useState } from "react";
+
 function Navbar() {
+  
+  const [isLogedIn, setIsLogedIn] = useState(
+  !!localStorage.getItem("token")
+  );
+
+  const handleLogout = () =>{
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setIsLogedIn(false);
+  }
+
+
   return (
    <nav className="navbar navbar-expand-lg bg-white shadow-sm py-3">
       <div className="container">
@@ -59,15 +73,23 @@ function Navbar() {
           </ul>
   
           <div className="d-flex gap-2">
+            {isLogedIn ? (
+                <button className="btn btn-success btn-sm" to="/login" onClick={handleLogout}>
+                  Logout
+                </button>
+              ): (
+                <>
+                <Link className="btn btn-outline-success btn-sm" to="/login">
+                  Login
+                </Link>
 
-            <Link className="btn btn-outline-success btn-sm" to="/login">
-              Login
-            </Link>
-
-            <Link className="btn btn-success btn-sm" to="/register">
-              Register
-            </Link>
-
+                <Link className="btn btn-success btn-sm" to="/register">
+                  Register
+                </Link>
+                </>
+              
+              )
+            }
           </div>
 
         </div>
