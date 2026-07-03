@@ -30,7 +30,7 @@ function ReportsIssue() {
         incident_datetime,
         description
       });
-      console.log(response.data)
+      navigate("/reports");
 
     } catch(error){
       console.log(error.response?.data || error.message);

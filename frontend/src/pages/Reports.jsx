@@ -3,39 +3,40 @@ import Navbar from "../components/Navbar/NavBar.jsx";
 import Footer from "../components/Footer/Footer.jsx"; 
 
 //Icons
-import busBlue from "../assets/BusBlue.png";
+import bus from "../assets/BusBlue.png";
+import luas from "../assets/2.png";
+import trainInter from "../assets/3.png";
+import trainComm from "../assets/4.png";
 
-
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import api from "../../../backend/src/api/api.js";
+
 function Reports() {
-    // TO be Deleted
-    const reports = [
-        {
-            route: "46A - Ranelagh to City Centre",
-            status: "Occupied Priority Seat",
-            badgeClass: "bg-success-subtle text-success",
-            description:
-            "Priority seats were occupied even though other passengers needed them.",
-            date: "May 30, 2024, 09:15am",
-        },
-        {
-            route: "14B - Cork to Dublin",
-            status: "Occupied Priority Seat",
-            badgeClass: "bg-danger-subtle text-danger",
-            description:
-            "Priority seats were occupied even though other passengers needed them.",
-            date: "May 30, 2024, 09:15am",
-        },
-        {
-            route: "46A - Central Park to City Centre",
-            status: "Occupied Priority Seat",
-            badgeClass: "bg-primary-subtle text-primary",
-            description:
-            "Priority seats were occupied even though other passengers needed them.",
-            date: "May 30, 2024, 09:15am",
-        },
-    ];
-    //***************/
+    const [reports, setReports] = useState([]);
+    const[routes, setRoutes] = useState([]);
+
+    useEffect(()=>{
+        async function loadReports() {
+            try{
+                const [reportsResponse, routesResponse] = await Promise.all([
+                        api.get("/reports"),
+                        api.get("/routes"),
+                        ]);
+ 
+                setReports(reportsResponse.data.reports);
+                setRoutes(routesResponse.data);
+                console.log(routesResponse.data)
+                 console.log(reportsResponse.data.reports)
+
+            }catch(error){
+                console.log(error.response?.data || error.message);
+            }
+        }
+        loadReports();
+    },[])
+
+  
     return (
         <>
             <Navbar />
@@ -119,34 +120,54 @@ function Reports() {
                     <li className="col-auto">Resolved</li>
                 </ul>
             </div>
-            <div className="reports-container container my-5">
-                {reports.map((report, index) => (
-                <div
-                    key={index}
-                    className="report d-flex align-items-start gap-4 w-100 py-3 border-bottom border-tertiary"
-                >
-                    <div className="transport-icon flex-shrink-0">
-                    <img src={busBlue} alt="Bus icon" width="80" />
-                    </div>
+              <div className="reports-container container my-5">
+                {reports.map((report) => {
+                    const route = routes.find(
+                        (route) => route.route_id === report.route_id
+                    );
 
-                    <div className="transport-info flex-grow-1">
-                    <div className="d-flex flex-column flex-md-row justify-content-between align-items-start gap-2 mb-2">
-                        <h5 className="fw-bold mb-0">{report.route}</h5>
-
-                        <span
-                        className={`rounded fw-bold text-center px-2 py-1 small ${report.badgeClass}`}
+                    const transport_type = route.transport_type_id;
+                    let img;
+                    if(transport_type === 1){
+                        img = bus;
+                    }else if(transport_type === 2){
+                        img = luas;
+                    }else if(transport_type === 3){
+                        img = trainInter;
+                    }else{
+                        img = trainComm;
+                    }
+                    return (
+                        <div
+                        key={report.report_id}
+                        className="report d-flex align-items-start gap-4 w-100 py-3 border-bottom"
                         >
-                        {report.status}
-                        </span>
-                    </div>
+                        <div className="transport-icon flex-shrink-0">
+                            <img src={img} alt="Bus icon" width="80" />
+                        </div>
 
-                    <p className="text-muted mb-2">{report.description}</p>
+                        <div className="transport-info flex-grow-1">
+                            <div className="d-flex flex-column flex-md-row justify-content-between align-items-start gap-2 mb-2">
+                            <h5 className="fw-bold mb-0">
+                                {route?.route_name || "Route not found"}
+                            </h5>
 
-                    <p className="text-muted small mb-0">{report.date}</p>
-                    </div>
-                </div>
-                ))}
+                            <span className="rounded fw-bold text-center px-2 py-1 small bg-warning text-dark">
+                                {report.status}
+                            </span>
+                            </div>
+
+                            <p className="text-muted mb-2">{report.description}</p>
+
+                            <p className="text-muted small mb-0">
+                            {new Date(report.incident_datetime).toLocaleString()}
+                            </p>
+                        </div>
+                        </div>
+                    );
+                })}
             </div>
+
             <Footer/>
         </>
     )

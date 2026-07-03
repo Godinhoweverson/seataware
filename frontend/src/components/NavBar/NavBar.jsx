@@ -14,7 +14,6 @@ function Navbar() {
     setIsLogedIn(false);
   }
 
-
   return (
    <nav className="navbar navbar-expand-lg bg-white shadow-sm py-3">
       <div className="container">
