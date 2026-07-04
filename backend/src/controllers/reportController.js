@@ -60,21 +60,64 @@ const report = (req, res) =>{
 //Get all reports
 const getReports = (req, res) =>{
      
-    const sql = `SELECT * FROM reports ORDER BY created_at DESC`;
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 5;
+    const offset = (page - 1) * limit;
 
-    db.query(sql, (err, reports) => {
+    const countSql = `SELECT COUNT(*) AS total FROM reports`;
+    const selectSql = `
+        SELECT
+            r.report_id,
+            r.route_id,
+            r.issue_type_id,
+            r.location_name,
+            r.description,
+            r.status,
+            r.incident_datetime,
+            r.created_at,
+            rt.route_name,
+            rt.operator_name,
+            rt.transport_type_id,
+            tt.name AS transport_type,
+            it.name AS issue_type
+            FROM reports r
+            JOIN routes rt ON r.route_id = rt.route_id
+            JOIN transport_types tt ON rt.transport_type_id = tt.transport_type_id
+            JOIN issue_types it ON r.issue_type_id = it.issue_type_id
+            ORDER BY r.created_at DESC
+            LIMIT ? OFFSET ?
+    `;
+
+    db.query(countSql, (err, countResult) => {
         if(err){
             return res.status(500).json({
                 message: "Database error."
             });
         }
 
-        res.status(200).json({
-            message: "Reports retrieved successfully",
-            reports
+        const total = countResult[0].total;
+        const totalPages = Math.ceil(total / limit);
+
+        db.query(selectSql, [limit, offset], (err, reports) => {
+            if(err){
+                return res.status(500).json({
+                    message: "Database error."
+                });
+            }
+
+            res.status(200).json({
+                message: "Reports retrieved successfully",
+                reports,
+                pagination: {
+                    currentPage: page,
+                    totalPages,
+                    totalReports: total,
+                    limit
+                }
+            });
         });
     });
-}
+};
 
 // GET one specific report
 const getReport = (req, res) =>{

@@ -15,26 +15,28 @@ import api from "../../../backend/src/api/api.js";
 function Reports() {
     const [reports, setReports] = useState([]);
     const[routes, setRoutes] = useState([]);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(5);
+    const [limit, setLimit] = useState(5);
 
     useEffect(()=>{
         async function loadReports() {
             try{
-                const [reportsResponse, routesResponse] = await Promise.all([
-                        api.get("/reports"),
-                        api.get("/routes"),
-                        ]);
- 
+                const reportsResponse = await api.get(`/reports?page=${page}&limit=${limit}`);
+                const routesResponse = await api.get("/routes");
+
                 setReports(reportsResponse.data.reports);
+                setTotalPages(reportsResponse.data.pagination.totalPages);
                 setRoutes(routesResponse.data);
-                console.log(routesResponse.data)
-                 console.log(reportsResponse.data.reports)
+
+                console.log(routesResponse.data[0].route_id);
 
             }catch(error){
                 console.log(error.response?.data || error.message);
             }
         }
         loadReports();
-    },[])
+    },[page])
 
   
     return (
@@ -122,19 +124,14 @@ function Reports() {
             </div>
               <div className="reports-container container my-5">
                 {reports.map((report) => {
-                    const route = routes.find(
-                        (route) => route.route_id === report.route_id
-                    );
-
-                    const transport_type = route.transport_type_id;
-                    let img;
-                    if(transport_type === 1){
-                        img = bus;
-                    }else if(transport_type === 2){
+                   
+                    const transport_type = report.transport_type_id;
+                    let img = bus; //
+                    if(transport_type === 2){
                         img = luas;
                     }else if(transport_type === 3){
                         img = trainInter;
-                    }else{
+                    }else if(transport_type === 4){
                         img = trainComm;
                     }
                     return (
@@ -149,7 +146,7 @@ function Reports() {
                         <div className="transport-info flex-grow-1">
                             <div className="d-flex flex-column flex-md-row justify-content-between align-items-start gap-2 mb-2">
                             <h5 className="fw-bold mb-0">
-                                {route?.route_name || "Route not found"}
+                                {report.route_name}
                             </h5>
 
                             <span className="rounded fw-bold text-center px-2 py-1 small bg-warning text-dark">
@@ -167,7 +164,15 @@ function Reports() {
                     );
                 })}
             </div>
-
+            <div className="pagination d-flex justify-content-center align-items-center gap-2 my-4">
+                <p className="fw-bold mb-0 cursor-pointer" disabled={page === 1} onClick={() => setPage(page - 1)}>
+                    Previous
+                </p>
+                <span className="fw-bold"> {page} of {totalPages}</span>
+                <p className="fw-bold mb-0 cursor-pointer" disabled={page === totalPages} onClick={() => setPage(page + 1)}>
+                     Next
+                </p>
+            </div> 
             <Footer/>
         </>
     )

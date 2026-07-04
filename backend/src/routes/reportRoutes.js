@@ -5,8 +5,8 @@ const { report, getReport, getReports,UpdateReport, deleteReport } = require("..
 const router = express.Router();
 
 router.post("/", verifyToken, report);
-router.get("/", verifyToken, getReports);
-router.get("/:report_id", verifyToken, getReport);
+router.get("/", getReports);
+router.get("/:report_id",getReport);
 router.put("/:report_id", verifyToken, UpdateReport);
 router.delete("/:report_id", verifyToken, deleteReport);
 
