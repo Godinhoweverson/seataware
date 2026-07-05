@@ -25,9 +25,11 @@ function Reports() {
         // Load reports from the backend API
         async function loadReports() {
             try{
+                // Fetch reports and routes data
                 const reportsResponse = await api.get(`/reports?page=${page}&limit=${limit}`);
                 const routesResponse = await api.get("/routes");
 
+                // Update the reports, total pages, and routes state
                 setReports(reportsResponse.data.reports);
                 setTotalPages(reportsResponse.data.pagination.totalPages);
                 setRoutes(routesResponse.data);

@@ -6,6 +6,8 @@ const report = (req, res) =>{
         issue_type_id,
         route_id,
         location_name,
+        latitude,
+        longitude,
         incident_datetime,
         description
     } = req.body;
@@ -13,6 +15,8 @@ const report = (req, res) =>{
     if(!issue_type_id ||
         !route_id ||
         !location_name ||
+        !latitude ||
+        !longitude ||
         !incident_datetime ||
         !description){
             return res.status(400).json({
@@ -22,22 +26,27 @@ const report = (req, res) =>{
 
     const user_id = req.user.user_id;
 
-    const sql = 
-        `INSERT INTO reports (
-        user_id,
-        route_id,
-        issue_type_id,
-        location_name,
-        description,
-        incident_datetime
-         )
-        VALUES (?,?,?,?,?,?)`;
+    const sql = `
+        INSERT INTO reports (
+            user_id,
+            route_id,
+            issue_type_id,
+            location_name,
+            latitude,
+            longitude,
+            description,
+            incident_datetime
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        `;
 
     db.query(sql,[
         user_id,
         route_id,
         issue_type_id,
         location_name,
+        latitude,
+        longitude,
         description,
         incident_datetime
         ],
@@ -99,19 +108,21 @@ const getReports = (req, res) => {
 
   const selectSql = `
     SELECT
-      r.report_id,
-      r.route_id,
-      r.issue_type_id,
-      r.location_name,
-      r.description,
-      r.status,
-      r.incident_datetime,
-      r.created_at,
-      rt.route_name,
-      rt.operator_name,
-      rt.transport_type_id,
-      tt.name AS transport_type,
-      it.name AS issue_type
+        r.report_id,
+        r.route_id,
+        r.issue_type_id,
+        r.location_name,
+        r.latitude,
+        r.longitude,
+        r.description,
+        r.status,
+        r.incident_datetime,
+        r.created_at,
+        rt.route_name,
+        rt.operator_name,
+        rt.transport_type_id,
+        tt.name AS transport_type,
+        it.name AS issue_type
     FROM reports r
     JOIN routes rt ON r.route_id = rt.route_id
     JOIN transport_types tt ON rt.transport_type_id = tt.transport_type_id
@@ -119,7 +130,7 @@ const getReports = (req, res) => {
     ${whereSql}
     ORDER BY r.created_at DESC
     LIMIT ? OFFSET ?
-  `;
+    `;
 
   db.query(countSql, values, (err, countResult) => {
     if (err) {

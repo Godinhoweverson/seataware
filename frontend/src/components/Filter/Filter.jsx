@@ -1,23 +1,28 @@
 import {useState} from 'react';
+//api
 import api from "../../../../backend/src/api/api.js";
 
 function Filter({ setReports }) {
+    //State for filters
     const [filters, setFilters] = useState({
         transport_type: '',
         route_id: '',
         issue_type_id: '',
         status: ''
     });
-
+    //State for routes
     const [routes, setRoutes] = useState([]);
 
+    //Load routes and apply filters from the backend API
     async function applyFilters(updatedFilters) {
         try {
+            // Fetch filtered reports
             const response = await api.get("/reports", {
                 params: updatedFilters,
             });
-
+            // Fetch all routes
             const routesResponse = await api.get("/routes");
+            // Update the reports and routes state
             setReports(response.data.reports);
             setRoutes(routesResponse.data);
 
@@ -26,6 +31,7 @@ function Filter({ setReports }) {
         }
     }
 
+    // Handle filter changes
     const handleChange = (e) => {
         const { name, value } = e.target;
         const updatedFilters = { 
@@ -73,6 +79,7 @@ function Filter({ setReports }) {
                     name="route_id"
                     >
                     <option value="">Select route</option>
+                    {/* // Populate the route options dynamically */}
                     {routes.map((route)=>(
                       <option
                         key={route.route_id}

@@ -4,29 +4,38 @@ import Footer from "../components/Footer/Footer.jsx";
 import Form from "../components/Form/Form.jsx";
 import api from "../../../backend/src/api/api.js";
 
+//React
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 function ReportsIssue() {
+  //State for form fields
   const [issue_type_id, setIssueTypeId] = useState("");
   const [route_id, setRouteId] = useState("");
   const [location_name, setLocationName] = useState("");
   const [incident_datetime, setIncidentDateTime] = useState("");
   const [description, setDescription] = useState("");
-
   const[routes, setRoutes] = useState([]);
+  //State for latitude and longitude
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
+
+  //React Router navigation
   const navigate = useNavigate();    
   
-  
+  //Handle form submission
   async function handleSubmit(e){
     e.preventDefault();
 
     try{
+      // Send a POST request to the backend API to create a new report
       const response = await api.post("/reports", {
         issue_type_id: Number(issue_type_id),
         route_id: Number(route_id),
         location_name,
+        latitude,
+        longitude,
         incident_datetime,
         description
       });
@@ -52,6 +61,24 @@ function ReportsIssue() {
     loadRoutes();
   },[]);
 
+  useEffect(() => {
+    // Check if geolocation is available in the browser
+    if (!navigator.geolocation) {  
+      console.log("Geolocation is not supported by this browser.");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setLatitude(position.coords.latitude);
+        setLongitude(position.coords.longitude);
+      },
+      (error) => {
+        console.error("Error getting location:", error);
+      }
+    );    
+  }, []);
+
     const form = ( 
             <form className="forms" onSubmit={handleSubmit}>
 
@@ -76,6 +103,7 @@ function ReportsIssue() {
                     onChange={(e) => setRouteId(e.target.value)}
                     >
                     <option value="">Select route</option>
+                    {/* Populate the route options dynamically */}
                     {routes.map((route)=>(
                       <option
                         key={route.route_id}
