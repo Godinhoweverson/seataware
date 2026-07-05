@@ -1,18 +1,20 @@
 //Components
 import Navbar from "../components/Navbar/NavBar.jsx";
 import Footer from "../components/Footer/Footer.jsx"; 
-
+import Filter from "../components/Filter/Filter.jsx";
 //Icons
 import bus from "../assets/BusBlue.png";
 import luas from "../assets/2.png";
 import trainInter from "../assets/3.png";
 import trainComm from "../assets/4.png";
 
+//React
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import api from "../../../backend/src/api/api.js";
 
 function Reports() {
+    //State
     const [reports, setReports] = useState([]);
     const[routes, setRoutes] = useState([]);
     const [page, setPage] = useState(1);
@@ -20,6 +22,7 @@ function Reports() {
     const [limit, setLimit] = useState(5);
 
     useEffect(()=>{
+        // Load reports from the backend API
         async function loadReports() {
             try{
                 const reportsResponse = await api.get(`/reports?page=${page}&limit=${limit}`);
@@ -28,9 +31,6 @@ function Reports() {
                 setReports(reportsResponse.data.reports);
                 setTotalPages(reportsResponse.data.pagination.totalPages);
                 setRoutes(routesResponse.data);
-
-                console.log(routesResponse.data[0].route_id);
-
             }catch(error){
                 console.log(error.response?.data || error.message);
             }
@@ -56,64 +56,7 @@ function Reports() {
                 </div>
                 
             </div>
-            <div className="reports_filter container mt-5">
-            <div className="row g-4">
-
-                <div className="col-12 col-md-6 col-lg-3">
-                <label htmlFor="transportType" className="form-label fw-semibold">
-                    Transport Type
-                </label>
-                <select id="transportType" className="form-select custom-select mt-2">
-                    <option>Bus</option>
-                    <option>Luas</option>
-                    <option>Train</option>
-                </select>
-                </div>
-
-                <div className="col-12 col-md-6 col-lg-3">
-                <label htmlFor="route" className="form-label fw-semibold">
-                    Route
-                </label>
-                <select id="route" className="form-select custom-select mt-2">
-                    <option>46A</option>
-                    <option>33B</option>
-                    <option>3B</option>
-                </select>
-                </div>
-
-                <div className="col-12 col-md-6 col-lg-3">
-                <label htmlFor="issueType" className="form-label fw-semibold">
-                    Issue Type
-                </label>
-                <select id="issueType" className="form-select custom-select mt-2">
-                    <option>Occupied Priority Seat</option>
-                    <option>Driver Behavior</option>
-                    <option>Accessibility Issue</option>
-                    <option>Overcrowding</option>
-                    <option>Other</option>
-                </select>
-                </div>
-
-                <div className="col-12 col-md-6 col-lg-3">
-                <label htmlFor="dateRange" className="form-label fw-semibold">
-                    Date Range
-                </label>
-                <select id="dateRange" className="form-select custom-select mt-2">
-                    <option>All Time</option>
-                    <option>Last 24 Hours</option>
-                    <option>Last Week</option>
-                    <option>Last Month</option>
-                </select>
-                </div>
-            </div>
-
-            </div>
-            <div className="container search_reports mt-5">
-                <form className="form-inline my-2 my-lg-0 d-flex justify-content-center align-items-center gap-2">
-                    <input className="form-control mr-sm-2 custom-select" type="search" placeholder="Search" aria-label="Search"/>
-                    <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
-            </div>
+            <Filter setReports={setReports} />
             <div className="container mt-5">
                 <ul className="row g-4 d-flex justify-content-start align-items-center list-unstyled">
                     <li className="col-auto">All Reports</li>
@@ -123,9 +66,12 @@ function Reports() {
                 </ul>
             </div>
               <div className="reports-container container my-5">
+                {/* Display the reports */}
                 {reports.map((report) => {
                    
+                //    Determine the transport type and select the appropriate image
                     const transport_type = report.transport_type_id;
+
                     let img = bus; //
                     if(transport_type === 2){
                         img = luas;
