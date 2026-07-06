@@ -8,7 +8,31 @@ import gpsicon from "../assets/gpsicon.png";
 import seat from "../assets/seat.png";
 import busBlue from '../assets/busBlue.png';
 
+//API
+import api from "../../../backend/src/api/api.js"
+//React
+import { useEffect, useState } from "react";
+
 function Dashboard() {
+
+  const [stats, setStats] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() =>{
+    async function loadDashboard(){
+      try{
+        const response = await api.get("/dashboard/stats");
+        console.log(response.data)
+        setStats(response.data);
+      }catch(error){
+        console.log(error.response?.data || error.message);
+      }finally{
+        setLoading(false);
+      }
+    }
+    loadDashboard();
+  },[]);
+
   return (
     <>
       <Navbar />
@@ -33,7 +57,7 @@ function Dashboard() {
             <div className="stat-card shadow-sm rounded p-4 h-100 d-flex justify-content-between align-items-center">
               <div>
                 <p className="mb-1 fw-bold">Total Reports</p>
-                <h5>1,455</h5>
+                <h5>{stats?.totalReports}</h5>
                 <small className="text-success">+5% this month</small>
               </div>
 
@@ -50,9 +74,8 @@ function Dashboard() {
             <div className="stat-card shadow-sm rounded p-4 h-100 d-flex justify-content-between align-items-center">
               <div>
                 <p className="mb-1 fw-bold">Seat Related Issues</p>
-                <h5>65%</h5>
-                <small className="text-success">+10% last month</small>
-              </div>
+                <h5>{stats?.mostReportedRoute?.route_name}</h5>
+                <small>{stats?.mostReportedRoute?.total} reports</small>              </div>
 
               <img
                 src={seat}
