@@ -1,6 +1,10 @@
 //Components
 import Navbar from "../components/Navbar/NavBar.jsx";
 import Footer from "../components/Footer/Footer.jsx";
+import TransportChart from "../components/Dashboard/TransportChart.jsx";
+import IssueChart from "../components/Dashboard/IssueChart.jsx";
+import RecentReports from "../components/Dashboard/RecentReports.jsx";
+import MapComponent from "../components/Map/MapComponent.jsx";
 
 //images
 import totalReports from "../assets/totalReports.png";
@@ -53,7 +57,7 @@ function Dashboard() {
       <div className="container mt-5">
         <div className="row g-4">
 
-          <div className="col-12 col-sm-6 col-xl-3">
+          <div className="col-12 col-sm-6 col-xl-4">
             <div className="stat-card shadow-sm rounded p-4 h-100 d-flex justify-content-between align-items-center">
               <div>
                 <p className="mb-1 fw-bold">Total Reports</p>
@@ -70,12 +74,12 @@ function Dashboard() {
             </div>
           </div>
 
-          <div className="col-12 col-sm-6 col-xl-3">
+          <div className="col-12 col-sm-6 col-xl-4">
             <div className="stat-card shadow-sm rounded p-4 h-100 d-flex justify-content-between align-items-center">
               <div>
-                <p className="mb-1 fw-bold">Seat Related Issues</p>
-                <h5>{stats?.mostReportedRoute?.route_name}</h5>
-                <small>{stats?.mostReportedRoute?.total} reports</small>              </div>
+                <p className="mb-1 fw-bold">Most common issue</p>
+                <h5>{stats?.mostCommonIssue?.issue_type}</h5>
+                <small>{stats?.mostCommonIssue?.total} reports</small>              </div>
 
               <img
                 src={seat}
@@ -86,12 +90,12 @@ function Dashboard() {
             </div>
           </div>
 
-          <div className="col-12 col-sm-6 col-xl-3">
+          <div className="col-12 col-sm-6 col-xl-4">
             <div className="stat-card shadow-sm rounded p-4 h-100 d-flex justify-content-between align-items-center">
               <div>
                 <p className="mb-1 fw-bold">Most Reported Route</p>
-                <h5>46A</h5>
-                <small className="text-success">100 reports</small>
+                <h5>{stats?.mostReportedRoute?.route_name}</h5>
+                <small className="text-success">1{stats?.mostReportedRoute?.total}</small>
               </div>
 
               <img
@@ -103,53 +107,29 @@ function Dashboard() {
             </div>
           </div>
 
-          <div className="col-12 col-sm-6 col-xl-3">
-            <div className="stat-card shadow-sm rounded p-4 h-100 d-flex justify-content-between align-items-center">
-              <div>
-                <p className="mb-1 fw-bold">Counties with Reports</p>
-                <h5>12</h5>
-                <small className="text-success">Of 10 counties</small>
-              </div>
-
-              <img
-                src={gpsicon}
-                alt="GPS icon"
-                width="80"
-                className="img-fluid"
-              />
-            </div>
-          </div>
-
       </div>
       </div>
       <div className="container mt-5">
         <div className="row g-4">
-
-          <div className="col-12 col-xl-6">
+          <div className="col-12 col-xl-4">
             <div className="stat-card shadow-sm rounded p-4 h-100 d-flex justify-content-between align-items-center">
-              1   
+                <IssueChart data={stats?.reportsByIssue  || []}/>
             </div>
           </div>
-          <div className="col-12 col-xl-6">
+          <div className="col-12 col-xl-4">
             <div className="stat-card shadow-sm rounded p-4 h-100 d-flex justify-content-between align-items-center">
-              1   
+              <RecentReports/> 
             </div>
           </div>
-          <div className="col-12 col-xl-6">
+          <div className="col-12 col-xl-4">
             <div className="stat-card shadow-sm rounded p-4 h-100 d-flex justify-content-between align-items-center">
-              1   
+              <MapComponent/> 
             </div>
           </div>
-          <div className="col-12 col-xl-6">
-            <div className="stat-card shadow-sm rounded p-4 h-100 d-flex justify-content-between align-items-center">
-              1   
-            </div>
-          </div>
-          
-
-
-
         </div>
+      </div>
+      <div className="container mt-5">
+          <TransportChart data={stats?.reportsByTransport || []}/>
       </div>
       <Footer/>
     </>

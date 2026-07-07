@@ -1,34 +1,9 @@
 //Components
 import Navbar from "../components/Navbar/NavBar.jsx";
 import Footer from "../components/Footer/Footer.jsx";
-
-import api from "../../../backend/src/api/api.js";
-
-//React
-import { useState } from "react";
-import { useEffect } from "react";  
-
-//Leaflet
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import MapComponent from "../components/Map/MapComponent.jsx";
 
 function Map() {
-  //State for reports
-  const [reports, setReports] = useState([]);
-  //Load reports
-  useEffect(() => {
-    async function loadReports() {
-      try { 
-        const response = await api.get("/reports");
-        setReports(response.data.reports);
-        console.log(response.data);
-        console.log(response.data.reports);
-        console.log(Array.isArray(response.data.reports));
-      } catch (error) {
-        console.log(error.response?.data || error.message);
-      }
-    }
-    loadReports();
-  }, []);
 
   return (
     <>
@@ -126,33 +101,7 @@ function Map() {
             </div> */}
           </div>
           <div className="col-12 col-xl-9">
-            <MapContainer 
-              center={[53.349805, -6.26031]} 
-              zoom={13} 
-              style={{ height: "600px", width: "100%"}}
-              >
-              <TileLayer
-                attribution="&copy; OpenStreetMap contributors"
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
-              {reports.filter(report => report.latitude && report.longitude)
-              .map((report) => (
-                <Marker 
-                  key={report.report_id}
-                  position={[Number(report.latitude), Number(report.longitude)]}
-                >
-                  <Popup>
-                    <strong>{report.route_name}</strong>
-                    <br />
-                    {report.issue_type}
-                    <br />
-                    {report.location_name}
-                    <br />
-                    {report.status}
-                  </Popup>
-                </Marker>
-              ))}
-            </MapContainer>
+              <MapComponent/>
           </div>          
         </div>
       </div>
