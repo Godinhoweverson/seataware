@@ -13,8 +13,13 @@ ChartJS.register(
   Legend
 );
 
-function issueChart({data}){
-    
+function IssueChart({data}){
+
+    const options ={
+        responsive: true,
+        maintainAspectRatio: false,
+    };
+
     const chartData = {
         labels: data.map(item => item.issue_type),
         datasets: [
@@ -34,7 +39,11 @@ function issueChart({data}){
         ],
     };
 
-    return <Pie data={chartData}/>
+    return (
+        <div style={{height:"300px", width:"100%"}} className="card-body p-4">
+            <Pie data={chartData} options={options}/>
+        </div>
+    )
 }
 
-export default issueChart;
+export default IssueChart;

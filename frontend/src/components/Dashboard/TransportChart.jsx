@@ -18,6 +18,7 @@ ChartJS.register(
 );
 
 function TransportChart({data}){
+
     const options = {
         responsive: true,
         maintainAspectRatio: false,

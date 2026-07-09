@@ -4,18 +4,14 @@ import Footer from "../components/Footer/Footer.jsx";
 import TransportChart from "../components/Dashboard/TransportChart.jsx";
 import IssueChart from "../components/Dashboard/IssueChart.jsx";
 import RecentReports from "../components/Dashboard/RecentReports.jsx";
+import DashboardCards from "../components/Dashboard/DashboardCards.jsx";
 import MapComponent from "../components/Map/MapComponent.jsx";
-
-//images
-import totalReports from "../assets/totalReports.png";
-import gpsicon from "../assets/gpsicon.png";
-import seat from "../assets/seat.png";
-import busBlue from '../assets/busBlue.png';
 
 //API
 import api from "../../../backend/src/api/api.js"
 //React
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 function Dashboard() {
 
@@ -26,7 +22,7 @@ function Dashboard() {
     async function loadDashboard(){
       try{
         const response = await api.get("/dashboard/stats");
-        console.log(response.data)
+        
         setStats(response.data);
       }catch(error){
         console.log(error.response?.data || error.message);
@@ -38,100 +34,67 @@ function Dashboard() {
   },[]);
 
   return (
-    <>
+     <>
       <Navbar />
-      <div className="container mt-5">
-        <div className="row align-items-center g-3">
-          <div className="col-12 col-md">
-            <h1 className="mb-0">Dashboard &amp; Analytics</h1>
-          </div>
 
-          <div className="col-12 col-md-auto">
-            <button className="btn btn-success w-100 w-md-auto">
+      <main className="dashboard-page py-5 bg-light">
+        <div className="container">
+
+          <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-5">
+            <div>
+              <span className="badge text-bg-success mb-2 p-1">SeatAware Analytics</span>
+              <h1 className="fw-bold mb-1">Dashboard &amp; Analytics</h1>
+              <p className="text-muted mb-0">
+                Monitor public transport accessibility reports and trends.
+              </p>
+            </div>
+
+            <Link to="/reportsIssue" className="btn btn-success px-4">
               Report an Issue
-            </button>
+            </Link>
           </div>
-        </div>
-      </div>
-      
-      <div className="container mt-5">
-        <div className="row g-4">
-
-          <div className="col-12 col-sm-6 col-xl-4">
-            <div className="stat-card shadow-sm rounded p-4 h-100 d-flex justify-content-between align-items-center">
-              <div>
-                <p className="mb-1 fw-bold">Total Reports</p>
-                <h5>{stats?.totalReports}</h5>
-                <small className="text-success">+5% this month</small>
+          <DashboardCards stats={stats}/>
+          <div className="row g-4 mb-4">
+            <div className="col-12 col-xl-6">
+              <div className="card border-0 shadow-sm rounded-4 h-100">
+                <div className="card-body p-4">
+                  <h4 className="fw-bold mb-3">Reports by Issue</h4>
+                  <IssueChart data={stats?.reportsByIssue || []} />
+                </div>
               </div>
+            </div>
 
-              <img
-                src={totalReports}
-                alt="Reports count"
-                width="80"
-                className="img-fluid"
-              />
+            <div className="col-12 col-xl-6">
+              <div className="card border-0 shadow-sm rounded-4 h-100">
+                  <RecentReports />
+                </div>
             </div>
           </div>
 
-          <div className="col-12 col-sm-6 col-xl-4">
-            <div className="stat-card shadow-sm rounded p-4 h-100 d-flex justify-content-between align-items-center">
-              <div>
-                <p className="mb-1 fw-bold">Most common issue</p>
-                <h5>{stats?.mostCommonIssue?.issue_type}</h5>
-                <small>{stats?.mostCommonIssue?.total} reports</small>              </div>
-
-              <img
-                src={seat}
-                alt="Public transport seat"
-                width="80"
-                className="img-fluid"
-              />
-            </div>
-          </div>
-
-          <div className="col-12 col-sm-6 col-xl-4">
-            <div className="stat-card shadow-sm rounded p-4 h-100 d-flex justify-content-between align-items-center">
-              <div>
-                <p className="mb-1 fw-bold">Most Reported Route</p>
-                <h5>{stats?.mostReportedRoute?.route_name}</h5>
-                <small className="text-success">1{stats?.mostReportedRoute?.total}</small>
+          <div className="row g-4">
+            <div className="col-12 col-xl-6">
+              <div className="card border-0 shadow-sm rounded-4 h-100">
+                <div className="card-body p-4">
+                  <h4 className="fw-bold mb-3">Reports by Transport</h4>
+                  <TransportChart data={stats?.reportsByTransport || []} />
+                </div>
               </div>
+            </div>
 
-              <img
-                src={busBlue}
-                alt="Blue bus icon"
-                width="80"
-                className="img-fluid"
-              />
+            <div className="col-12 col-xl-6">
+              <div className="card border-0 shadow-sm rounded-4 h-100">
+                <div className="card-body p-4">
+                  <h4 className="fw-bold mb-3">Reports Map</h4>
+                  <MapComponent compact={true}/>
+                </div>
+              </div>
             </div>
           </div>
 
-      </div>
-      </div>
-      <div className="container mt-5">
-        <div className="row g-4">
-          <div className="col-12 col-xl-4">
-            <div className="stat-card shadow-sm rounded p-4 h-100 d-flex justify-content-between align-items-center">
-                <IssueChart data={stats?.reportsByIssue  || []}/>
-            </div>
-          </div>
-          <div className="col-12 col-xl-4">
-            <div className="stat-card shadow-sm rounded p-4 h-100 d-flex justify-content-between align-items-center">
-              <RecentReports/> 
-            </div>
-          </div>
-          <div className="col-12 col-xl-4">
-            <div className="stat-card shadow-sm rounded p-4 h-100 d-flex justify-content-between align-items-center">
-              <MapComponent/> 
-            </div>
-          </div>
         </div>
-      </div>
-      <div className="container mt-5">
-          <TransportChart data={stats?.reportsByTransport || []}/>
-      </div>
-      <Footer/>
+      </main>
+
+      <Footer />
     </>
   )
 }       
