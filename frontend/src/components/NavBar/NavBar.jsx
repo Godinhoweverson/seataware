@@ -1,17 +1,27 @@
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 function Navbar() {
+  const user = JSON.parse(localStorage.getItem("user"));
   
+  const [isAdmin, setIsAdmin] = useState(
+        user?.role === "admin"
+  );
+
   const [isLogedIn, setIsLogedIn] = useState(
   !!localStorage.getItem("token")
   );
 
+  const navigate = useNavigate();
+  
   const handleLogout = () =>{
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setIsLogedIn(false);
+    navigate("/");
   }
 
   return (
@@ -68,7 +78,13 @@ function Navbar() {
                 Awareness
               </Link>
             </li>
-
+            {isAdmin && (
+              <li className="nav-item px-2">
+                <Link className="nav-link text-dark" to="/adminDashboard">
+                  Admin Dashboard
+                </Link>
+              </li>
+            )}
           </ul>
   
           <div className="d-flex gap-2">

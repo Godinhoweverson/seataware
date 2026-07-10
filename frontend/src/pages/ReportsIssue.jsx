@@ -3,11 +3,12 @@ import Navbar from "../components/NavBar/NavBar.jsx"
 import Footer from "../components/Footer/Footer.jsx";
 import Form from "../components/Form/Form.jsx";
 import api from "../../../backend/src/api/api.js";
+import LocationPicker from "../components/Map/LocationPicker.jsx";
 
 //React
-import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function ReportsIssue() {
   //State for form fields
@@ -17,9 +18,10 @@ function ReportsIssue() {
   const [incident_datetime, setIncidentDateTime] = useState("");
   const [description, setDescription] = useState("");
   const[routes, setRoutes] = useState([]);
+
   //State for latitude and longitude
-  const [latitude, setLatitude] = useState("");
-  const [longitude, setLongitude] = useState("");
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
 
   //React Router navigation
   const navigate = useNavigate();    
@@ -27,7 +29,10 @@ function ReportsIssue() {
   //Handle form submission
   async function handleSubmit(e){
     e.preventDefault();
-
+    if(!latitude || !longitude){
+        alert("Please select a location on map.");
+        return;
+    }
     try{
       // Send a POST request to the backend API to create a new report
       const response = await api.post("/reports", {
@@ -61,23 +66,18 @@ function ReportsIssue() {
     loadRoutes();
   },[]);
 
-  useEffect(() => {
-    // Check if geolocation is available in the browser
-    if (!navigator.geolocation) {  
-      console.log("Geolocation is not supported by this browser.");
-      return;
-    }
-
+  useEffect(() =>{
     navigator.geolocation.getCurrentPosition(
-      (position) => {
+      (position) =>{
         setLatitude(position.coords.latitude);
         setLongitude(position.coords.longitude);
       },
-      (error) => {
-        console.error("Error getting location:", error);
+      (error) =>{
+        console.log("Error getting location", error);
       }
-    );    
-  }, []);
+    );
+  },[]);
+
 
     const form = ( 
             <form className="forms" onSubmit={handleSubmit}>
@@ -116,17 +116,26 @@ function ReportsIssue() {
               </div>
 
               <div className="mb-3">
-                <label htmlFor="location" className="form-label fw-semibold">
-                  Location
-                </label>
-                <input
-                  type="text"
-                  id="location"
-                  className="form-control"
-                  placeholder="Example: Ranelagh stop, O'Connell Street"
-                  value={location_name}
-                  onChange={(e) => setLocationName(e.target.value)}
-                />
+                  <label htmlFor="location" className="form-label fw-semibold">Location</label>
+                  <input
+                    type="text"
+                    id="location"
+                    className="form-control"
+                    placeholder="Example: Ranelagh stop, O'Connell Street"
+                    value={location_name}
+                    onChange={(e) => setLocationName(e.target.value)}
+                  />
+              </div>
+               <div className="mb-3">
+                  <label className="form-label fw-semibold mt-4">
+                    Select the exact location on the map
+                  </label>
+                  <LocationPicker
+                    latitude={latitude}
+                    longitude={longitude}
+                    setLatitude={setLatitude}
+                    setLongitude={setLongitude}
+                  />
               </div>
 
               <div className="mb-3">

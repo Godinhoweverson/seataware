@@ -42,7 +42,7 @@ function Dashboard() {
 
           <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-5">
             <div>
-              <span className="badge text-bg-success mb-2 p-1">SeatAware Analytics</span>
+              <span className="badge text-bg-success mb-2 p-2 rounded">SeatAware Analytics</span>
               <h1 className="fw-bold mb-1">Dashboard &amp; Analytics</h1>
               <p className="text-muted mb-0">
                 Monitor public transport accessibility reports and trends.

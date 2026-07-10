@@ -10,7 +10,6 @@ function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const navigate = useNavigate();
 
   async function handleSubmit(e){
@@ -21,7 +20,7 @@ function Login() {
         email,
         password,
       });
-
+      
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.user));
 
@@ -62,7 +61,7 @@ function Login() {
   )
   return (
     <>
-      <Navbar />
+      <Navbar/>
       <Form title={"Login"} heading={"Login"} form={form}/>
       <Footer/>
     </>

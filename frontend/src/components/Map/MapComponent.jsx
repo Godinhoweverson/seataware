@@ -17,7 +17,6 @@ function MapComponent({compact = false}) {
     async function loadReports() {
       try { 
         const response = await api.get("/reports");
-        console.log(response.data.reports);
         setReports(response.data.reports);
       } catch (error) {
         console.log(error.response?.data || error.message);
@@ -45,13 +44,13 @@ function MapComponent({compact = false}) {
                 position={[Number(report.latitude), Number(report.longitude)]}
             >
                 <Popup>
-                <strong>{report.route_name}</strong>
-                <br />
-                {report.issue_type}
-                <br />
-                {report.location_name}
-                <br />
-                {report.status}
+                  <strong>{report.route_name}</strong>
+                
+                  <p>Issue type: {report.issue_type}</p>
+                
+                  <p>Location: {report.location_name}</p>
+                  
+                  <p >Status:<span className="bdge bg-warning p-1 rounded">{report.status}</span> </p>
                 </Popup>
             </Marker>
             ))}

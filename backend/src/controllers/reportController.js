@@ -329,4 +329,57 @@ const deleteReport = (req, res) => {
     });
 };
 
-module.exports = { report, getReport, getReports, UpdateReport, deleteReport};
+const updateReportStatus = (req, res) =>{
+    const {report_id} = req.params;
+    const {status} = req.body;
+    const user_role = req.user.role;
+
+    if(user_role !== "admin"){
+        return res.status(403).json({
+            message: "Only admins can update report status",
+        });
+    }
+
+    const allowedStatuses = ["pending", "approved", "rejected", "resolved"];
+
+    if(!allowedStatuses.includes(status)){
+        return res.status(400).json({
+            message: "Invalid status value.",
+        });
+    }
+
+    const sql = `
+        UPDATE reports
+        SET status = ?
+        WHERE report_id = ?
+    `;
+
+    db.query(sql, [status, report_id], (err, result) =>{
+        if(err){
+            return res.status(500).json({
+                message: "Failed to update report status.",
+                error: err.message,
+            });
+        }
+
+        if(result.affectedRows === 0){
+            return res.status(404).json({
+                message: "Report not found.",
+            });
+        }
+
+        res.status(200).json({
+            message:"Report status updated successfully"
+        })
+    })
+
+}
+
+module.exports = { 
+    report, 
+    getReport, 
+    getReports, 
+    UpdateReport, 
+    deleteReport,
+    updateReportStatus
+};

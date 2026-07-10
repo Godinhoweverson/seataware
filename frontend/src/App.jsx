@@ -12,6 +12,7 @@ import Dashboard from './pages/Dashboard'
 import Awareness from './pages/Awareness'
 import Register from './pages/Register'
 import Login from './pages/Login'
+import AdminDashBoard from './pages/AdminDashboard'
 
 import './App.css'
 
@@ -28,6 +29,7 @@ function App() {
         <Route path="/awareness" element={<Awareness />} />
         <Route path="/register" element={<Register/>} />
         <Route path="/login" element={<Login/>} />
+        <Route path="/adminDashboard" element={<AdminDashBoard/>}/>
       </Routes>
     </>
   )

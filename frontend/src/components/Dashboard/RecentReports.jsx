@@ -43,7 +43,7 @@ function RecentReports(){
                                     <td>{report.route_name}</td>
                                     <td>{report.issue_type}</td>
                                     <td>
-                                        <span className="bdge bg-warning">
+                                        <span className="bdge bg-warning p-1 rounded">
                                             {report.status}
                                         </span>
                                     </td>
