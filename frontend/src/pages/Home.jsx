@@ -3,6 +3,7 @@ import Navbar from '../components/Navbar/NavBar';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import MapComponent from '../components/Map/MapComponent'
+import AlertMessage from '../components/AlertMessage/AlertMessage';
 
 //Images
 import busGreen from '../assets/busGreen.png';
@@ -17,11 +18,56 @@ import map from '../assets/map.png';
 
 //React
 import { Link } from "react-router-dom";
+import {useLocation} from "react-router-dom";
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
+
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState(""); // "success" or "error"
+
+  const location = useLocation();
+  const navigate = useNavigate();
+  
+
+  useEffect(() => {
+    const navigationMessage = location.state?.message;
+
+    if(!navigationMessage){
+      return;
+    }
+
+    setMessage(navigationMessage);
+    setMessageType(location.state?.messageType || "success");
+
+    navigate(location.pathname,
+       { 
+        replace: true, 
+        state: null,
+      });
+  }, [location.pathname, navigate]);
+
+  useEffect(() => {
+
+    if(!message){
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setMessage("");
+      setMessageType("");
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, [message]);
+
   return (
     <>
     <Navbar/>
+    {message && (
+      <AlertMessage message={message} type={messageType}/>
+    )}
     <Header/>
     <section className="information py-4">
       <div className="container">

@@ -4,12 +4,24 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 
+function getUserFromLocalStorage() {
+  const user = localStorage.getItem("user");
+  if(!user || user === "undefined") {
+    return null;
+  }
+
+  try {
+    return JSON.parse(user);
+  } catch {
+    localStorage.removeItem("user");
+    return null;
+  }
+}
+
 function Navbar() {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = getUserFromLocalStorage();
   
-  const [isAdmin, setIsAdmin] = useState(
-        user?.role === "admin"
-  );
+  const isAdmin = user && user.role === "admin";
 
   const [isLogedIn, setIsLogedIn] = useState(
   !!localStorage.getItem("token")

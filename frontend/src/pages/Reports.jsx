@@ -2,6 +2,8 @@
 import Navbar from "../components/Navbar/NavBar.jsx";
 import Footer from "../components/Footer/Footer.jsx"; 
 import Filter from "../components/Filter/Filter.jsx";
+import AlertMessage from "../components/AlertMessage/AlertMessage.jsx";
+
 //Icons
 import bus from "../assets/BusBlue.png";
 import luas from "../assets/2.png";
@@ -11,15 +13,64 @@ import trainComm from "../assets/4.png";
 //React
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+
+//API
 import api from "../../../backend/src/api/api.js";
 
 function Reports() {
     //State
     const [reports, setReports] = useState([]);
     const[routes, setRoutes] = useState([]);
+
+    //Pagination
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(5);
     const [limit, setLimit] = useState(5);
+
+    //alert message
+    const [message, setMessage] = useState("");
+    const [messageType, setMessageType] = useState(""); // "success" or "error"
+
+    //Navigate
+    const navigate = useNavigate();
+    
+    //location
+    const location = useLocation();
+
+    useEffect(()=>{
+        const navigationMessage = location.state?.message
+
+        if(!navigationMessage){
+            return;
+        }
+
+        setMessage(navigationMessage);
+        setMessageType(location.state?.messageType || "success");
+
+        navigate(location.pathname,
+            {
+                replace: true,
+                state: null,
+            }
+        );
+    },[location.pathname, navigate]);
+
+    useEffect(() =>{
+
+        if(!message){
+            return;
+        }
+
+        const timer = setTimeout(() => {
+            setMessage("");
+            setMessageType("");
+        }, 5000);
+
+        return () => clearTimeout(timer);
+    }, [message]);
+
 
     useEffect(()=>{
         // Load reports from the backend API
@@ -44,6 +95,9 @@ function Reports() {
     return (
         <>
             <Navbar />
+            {message && (
+                <AlertMessage message={message} type={messageType}/>
+            )}
             <div className="reports container mt-5">
                 <div className="row">
                     <div className="col-12 col-lg-6 d-flex flex-column justify-content-center align-items-start gap-2 mb-3 mb-lg-0">
@@ -96,10 +150,26 @@ function Reports() {
                             <h5 className="fw-bold mb-0">
                                 {report.route_name}
                             </h5>
-
-                            <span className="rounded fw-bold text-center px-2 py-1 small bg-warning text-dark">
-                                {report.status}
-                            </span>
+                             {report.status === "pending" && (
+                                            <span className="badge bg-warning p-2 rounded">
+                                                {report.status}
+                                            </span>
+                                        )}
+                                        {report.status === "approved" && (
+                                            <span className="badge bg-success p-2 rounded">
+                                                {report.status}
+                                            </span>
+                                        )}
+                                        {report.status === "resolved" && (
+                                            <span className="badge bg-primary p-2 rounded">
+                                                {report.status}
+                                            </span>
+                                        )}
+                                        {report.status === "rejected" && (
+                                            <span className="badge bg-danger p-2 rounded">
+                                                {report.status}
+                                            </span>
+                                        )}
                             </div>
 
                             <p className="text-muted mb-2">{report.description}</p>
@@ -111,16 +181,35 @@ function Reports() {
                         </div>
                     );
                 })}
+                <div className="card-footer border-0 px-4 py-4">
+                    <div className="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3">
+                        <span className="text-muted small">
+                        Page {page} of {totalPages}
+                        </span>
+
+                        <div className="btn-group">
+                        <button
+                            type="button"
+                            className="btn btn-outline-success"
+                            disabled={page === 1}
+                            onClick={() => setPage((currentPage) => currentPage - 1)}
+                        >
+                            Previous
+                        </button>
+
+                        <button
+                            type="button"
+                            className="btn btn-outline-success"
+                            disabled={page === totalPages}
+                            onClick={() => setPage((currentPage) => currentPage + 1)}
+                        >
+                            Next
+                        </button>
+                        </div>
+                    </div>
+                    </div>
             </div>
-            <div className="pagination d-flex justify-content-center align-items-center gap-2 my-4">
-                <p className="fw-bold mb-0 cursor-pointer" disabled={page === 1} onClick={() => setPage(page - 1)}>
-                    Previous
-                </p>
-                <span className="fw-bold"> {page} of {totalPages}</span>
-                <p className="fw-bold mb-0 cursor-pointer" disabled={page === totalPages} onClick={() => setPage(page + 1)}>
-                     Next
-                </p>
-            </div> 
+            
             <Footer/>
         </>
     )

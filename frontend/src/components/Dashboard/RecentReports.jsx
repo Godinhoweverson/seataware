@@ -43,9 +43,26 @@ function RecentReports(){
                                     <td>{report.route_name}</td>
                                     <td>{report.issue_type}</td>
                                     <td>
-                                        <span className="bdge bg-warning p-1 rounded">
-                                            {report.status}
-                                        </span>
+                                          {report.status === "pending" && (
+                                            <span className="badge bg-warning p-2 rounded">
+                                                {report.status}
+                                            </span>
+                                        )}
+                                        {report.status === "approved" && (
+                                            <span className="badge bg-success p-2 rounded">
+                                                {report.status}
+                                            </span>
+                                        )}
+                                        {report.status === "resolved" && (
+                                            <span className="badge bg-primary p-2 rounded">
+                                                {report.status}
+                                            </span>
+                                        )}
+                                        {report.status === "rejected" && (
+                                            <span className="badge bg-danger p-2 rounded">
+                                                {report.status}
+                                            </span>
+                                        )}
                                     </td>
                                     <td>
                                         {new Date(report.created_at).toLocaleDateString()}

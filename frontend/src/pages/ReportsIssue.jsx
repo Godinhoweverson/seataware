@@ -2,8 +2,10 @@
 import Navbar from "../components/NavBar/NavBar.jsx"
 import Footer from "../components/Footer/Footer.jsx";
 import Form from "../components/Form/Form.jsx";
-import api from "../../../backend/src/api/api.js";
 import LocationPicker from "../components/Map/LocationPicker.jsx";
+
+//API
+import api from "../../../backend/src/api/api.js";
 
 //React
 import { useEffect } from "react";
@@ -11,15 +13,21 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function ReportsIssue() {
-  //State for form fields
+  //form fields
   const [issue_type_id, setIssueTypeId] = useState("");
   const [route_id, setRouteId] = useState("");
   const [location_name, setLocationName] = useState("");
   const [incident_datetime, setIncidentDateTime] = useState("");
   const [description, setDescription] = useState("");
+
+  //Routes
   const[routes, setRoutes] = useState([]);
 
-  //State for latitude and longitude
+  //alert message
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState(""); // "success" or "error"
+
+  //latitude and longitude
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
 
@@ -29,10 +37,22 @@ function ReportsIssue() {
   //Handle form submission
   async function handleSubmit(e){
     e.preventDefault();
-    if(!latitude || !longitude){
-        alert("Please select a location on map.");
-        return;
+
+    // Validate that all fields are filled
+    console.log(issue_type_id, route_id, location_name);
+    if(!issue_type_id || !route_id || !location_name.trim() || !incident_datetime || !description.trim()){
+      setMessage("All fields are required.");
+      setMessageType("danger");
+      return;
     }
+    // Validate that latitude and longitude are set
+    if(!latitude || !longitude){
+      setMessage("Please select a location on the map.");
+      setMessageType("danger");
+      return;
+    }
+
+
     try{
       // Send a POST request to the backend API to create a new report
       const response = await api.post("/reports", {
@@ -44,10 +64,19 @@ function ReportsIssue() {
         incident_datetime,
         description
       });
-      navigate("/reports");
+
+      // Navigate to the reports page after successful submission
+      navigate("/reports",{
+        state: {
+          message: "Report submitted successfully!",
+          messageType: "success"
+        }
+      });
 
     } catch(error){
-      console.log(error.response?.data || error.message);
+      // Set error message for submission failure
+      setMessage(error.response?.data?.message || "Failed to submit report. Please try again.");
+      setMessageType("danger");
     }
   }
   
@@ -59,7 +88,8 @@ function ReportsIssue() {
 
         setRoutes(response.data);
       }catch (error){
-        console.log(error.response?.data || error.message);
+        setMessage(error.response?.data || error.message);
+        setMessageType("danger");
       }
       
     }
@@ -86,7 +116,13 @@ function ReportsIssue() {
                 <label htmlFor="issueType" className="form-label fw-semibold">
                   Issue Type
                 </label>
-                <select id="issueType" className="form-select" value={issue_type_id} onChange={(e) => setIssueTypeId(e.target.value)}>
+                <select 
+                    id="issueType"
+                    className="form-select"
+                    value={issue_type_id} 
+                    onChange={(e) => setIssueTypeId(e.target.value)}
+                    required
+                  >
                   <option value="">Select an issue type</option>
                   <option value="1">Priority Seat</option>
                   <option value="2">Overcrowding</option>
@@ -101,6 +137,7 @@ function ReportsIssue() {
                     className="form-select"
                     value={route_id}
                     onChange={(e) => setRouteId(e.target.value)}
+                    required
                     >
                     <option value="">Select route</option>
                     {/* Populate the route options dynamically */}
@@ -124,6 +161,7 @@ function ReportsIssue() {
                     placeholder="Example: Ranelagh stop, O'Connell Street"
                     value={location_name}
                     onChange={(e) => setLocationName(e.target.value)}
+                    required
                   />
               </div>
                <div className="mb-3">
@@ -148,6 +186,7 @@ function ReportsIssue() {
                   className="form-control"
                   value={incident_datetime}
                   onChange={(e) => setIncidentDateTime(e.target.value)}
+                  required
                 />
               </div>
 
@@ -162,6 +201,7 @@ function ReportsIssue() {
                   placeholder="Describe what happened..."
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
+                  required
                 ></textarea>
               </div>
 
