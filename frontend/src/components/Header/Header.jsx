@@ -19,7 +19,7 @@ function Header(){
                         <div className="d-flex gap-3 justify-content-center justify-content-lg-start">
                             <Link className="issue_btn btn btn-success btn-sm fw-bold" to="/reportsIssue">Report an Issue</Link>
 
-                            <Link className="issue_btn btn btn-sm btn-outline-success fw-bold" to="/reports">Reports</Link>
+                            <Link className="issue_btn btn btn-sm btn-outline-success bg-white text-success fw-bold" to="/reports">Reports</Link>
                         </div>
                     </div>
                     </div>

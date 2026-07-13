@@ -73,7 +73,7 @@ function Filter({ setReports }) {
                     Route
                 </label>
                 <select
-                    className="form-select"
+                    className="form-select custom-select mt-2"
                     value={filters.route_id}
                     onChange={handleChange}
                     name="route_id"

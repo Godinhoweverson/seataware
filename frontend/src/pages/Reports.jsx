@@ -113,66 +113,38 @@ function Reports() {
                 
             </div>
             <Filter setReports={setReports} />
-            <div className="container mt-5">
-                <ul className="row g-4 d-flex justify-content-start align-items-center list-unstyled">
-                    <li className="col-auto">All Reports</li>
-                    <li className="col-auto">Recent</li>
-                    <li className="col-auto">Popular</li>
-                    <li className="col-auto">Resolved</li>
-                </ul>
-            </div>
-              <div className="reports-container container my-5">
-                {/* Display the reports */}
-                {reports.map((report) => {
-                   
-                //    Determine the transport type and select the appropriate image
-                    const transport_type = report.transport_type_id;
+            <div className="reports-container container my-5">
+                {reports.length === 0 ? (
+                    <div className="text-center py-5">
+                    <h3 className="text-muted">No reports found.</h3>
+                    </div>
+                ) : (
+                    reports.map((report) => {
+                    let img = bus;
 
-                    let img = bus; //
-                    if(transport_type === 2){
+                    if (report.transport_type_id === 2) {
                         img = luas;
-                    }else if(transport_type === 3){
+                    } else if (report.transport_type_id === 3) {
                         img = trainInter;
-                    }else if(transport_type === 4){
+                    } else if (report.transport_type_id === 4) {
                         img = trainComm;
                     }
+
                     return (
                         <div
                         key={report.report_id}
                         className="report d-flex align-items-start gap-4 w-100 py-3 border-bottom"
                         >
                         <div className="transport-icon flex-shrink-0">
-                            <img src={img} alt="Bus icon" width="80" />
+                            <img src={img} alt="Transport" width="80" />
                         </div>
 
                         <div className="transport-info flex-grow-1">
-                            <div className="d-flex flex-column flex-md-row justify-content-between align-items-start gap-2 mb-2">
-                            <h5 className="fw-bold mb-0">
-                                {report.route_name}
-                            </h5>
-                             {report.status === "pending" && (
-                                            <span className="badge bg-warning p-2 rounded">
-                                                {report.status}
-                                            </span>
-                                        )}
-                                        {report.status === "approved" && (
-                                            <span className="badge bg-success p-2 rounded">
-                                                {report.status}
-                                            </span>
-                                        )}
-                                        {report.status === "resolved" && (
-                                            <span className="badge bg-primary p-2 rounded">
-                                                {report.status}
-                                            </span>
-                                        )}
-                                        {report.status === "rejected" && (
-                                            <span className="badge bg-danger p-2 rounded">
-                                                {report.status}
-                                            </span>
-                                        )}
-                            </div>
+                            <h5 className="fw-bold mb-2">{report.route_name}</h5>
 
-                            <p className="text-muted mb-2">{report.description}</p>
+                            <p className="text-muted mb-2">
+                            {report.description}
+                            </p>
 
                             <p className="text-muted small mb-0">
                             {new Date(report.incident_datetime).toLocaleString()}
@@ -180,36 +152,36 @@ function Reports() {
                         </div>
                         </div>
                     );
-                })}
-                <div className="card-footer border-0 px-4 py-4">
-                    <div className="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3">
-                        <span className="text-muted small">
-                        Page {page} of {totalPages}
-                        </span>
-
-                        <div className="btn-group">
-                        <button
-                            type="button"
-                            className="btn btn-outline-success"
-                            disabled={page === 1}
-                            onClick={() => setPage((currentPage) => currentPage - 1)}
-                        >
-                            Previous
-                        </button>
-
-                        <button
-                            type="button"
-                            className="btn btn-outline-success"
-                            disabled={page === totalPages}
-                            onClick={() => setPage((currentPage) => currentPage + 1)}
-                        >
-                            Next
-                        </button>
-                        </div>
-                    </div>
-                    </div>
+                    })
+                )}
             </div>
-            
+            <div className="card-footer border-0 px-4 py-4">
+                <div className="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3">
+                    <span className="text-muted small">
+                    Page {page} of {totalPages}
+                    </span>
+
+                    <div className="btn-group">
+                    <button
+                        type="button"
+                        className="btn btn-outline-success"
+                        disabled={page === 1}
+                        onClick={() => setPage((currentPage) => currentPage - 1)}
+                    >
+                        Previous
+                    </button>
+
+                    <button
+                        type="button"
+                        className="btn btn-outline-success"
+                        disabled={page === totalPages}
+                        onClick={() => setPage((currentPage) => currentPage + 1)}
+                    >
+                        Next
+                    </button>
+                    </div>
+                </div>
+            </div>
             <Footer/>
         </>
     )

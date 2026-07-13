@@ -99,7 +99,7 @@ function Navbar() {
             )}
           </ul>
   
-          <div className="d-flex gap-2">
+          <div className="d-flex gap-2 mt-3">
             {isLogedIn ? (
                 <button className="btn btn-success btn-sm" to="/login" onClick={handleLogout}>
                   Logout

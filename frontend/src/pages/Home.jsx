@@ -16,6 +16,8 @@ import userIcon from '../assets/userIcon.png';
 import wheelchair from '../assets/wheelchair.png';
 import map from '../assets/map.png';
 
+//API
+import api from "../../../backend/src/api/api"
 //React
 import { Link } from "react-router-dom";
 import {useLocation} from "react-router-dom";
@@ -30,7 +32,27 @@ function Home() {
   const location = useLocation();
   const navigate = useNavigate();
   
+  //Dashboard cards
 
+  const [stats, setStats] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() =>{
+    async function loadDashboard(){
+      try{
+        const response = await api.get("/dashboard/stats");
+        
+        setStats(response.data);
+      }catch(error){
+        console.log(error.response?.data || error.message);
+      }finally{
+        setLoading(false);
+      }
+    }
+    loadDashboard();
+  },[]);
+
+  //Alert
   useEffect(() => {
     const navigationMessage = location.state?.message;
 
@@ -69,63 +91,49 @@ function Home() {
       <AlertMessage message={message} type={messageType}/>
     )}
     <Header/>
-    <section className="information py-4">
+    <section className="information py-2">
       <div className="container">
-        <div className="stats-wrapper shadow-sm">
+        <div className="stats-wrapper shadow-sm p-0">
           <div className="row g-3">
 
-            <div className="col-12 col-md-6 col-lg-3">
+            <div className="col-12 col-md-4">
               <div className="stat-card">
                 <div className="stat-icon bg-green-soft">
                   <img src={busGreen} alt="Green bus icon" />
                 </div>
                 <div>
-                  <h5>1,455</h5>
+                  <h4>{stats?.totalReports || 0}</h4>
                   <p>Total Reports</p>
                   <small className="text-success">+10% this month</small>
                 </div>
               </div>
             </div>
 
-            <div className="col-12 col-md-6 col-lg-3">
+            <div className="col-12 col-md-4">
               <div className="stat-card">
                 <div className="stat-icon bg-blue-soft">
                   <img src={busBlue} alt="Blue bus icon" />
                 </div>
                 <div>
-                  <h5>46A</h5>
+                  <h4>{stats?.mostReportedRoute?.route_name || "No data"}</h4>
                   <p>Most Reported Route</p>
-                  <small>215 reports</small>
+                  <small>{stats?.mostReportedRoute?.total || 0} </small>
                 </div>
               </div>
             </div>
 
-            <div className="col-12 col-md-6 col-lg-3">
+            <div className="col-12 col-md-4">
               <div className="stat-card">
                 <div className="stat-icon bg-purple-soft">
                   <img src={communityIcon} alt="community icon" />
                 </div>
                 <div>
-                  <h5>62%</h5>
-                  <p>Seating Issues</p>
-                  <small>552 reports</small>
+                  <h4>{stats?.mostCommonIssue?.issue_type || "No data"}</h4>
+                  <p>Most common issue</p>
+                  <small>{stats?.mostCommonIssue?.total || 0} reports</small>
                 </div>
               </div>
             </div>
-
-            <div className="col-12 col-md-6 col-lg-3">
-              <div className="stat-card">
-                <div className="stat-icon bg-yellow-soft">
-                  <img src={warningIcon} alt="Warning icon" />
-                </div>
-                <div>
-                  <h5>23%</h5>
-                  <p>Overcrowding Issues</p>
-                  <small>193 reports</small>
-                </div>
-              </div>
-            </div>
-
           </div>
         </div>
       </div>
@@ -217,7 +225,7 @@ function Home() {
 
               </div>
             </div>
-            <div className="col-12 col-lg-3">
+            <div className="col-12 col-lg-3 d-flex justify-content-end align-items-end flex-column">
               <h5 className='fw-bold mb-1'>Recent reports on map</h5>
               <MapComponent compact={true}/>
               <div className="text-end mt-2">
@@ -229,17 +237,17 @@ function Home() {
         </div>
       </div>
     </section>
-    <section className='involved py-5'>
-      <div className='container'>
-        <div className="row g-4 shadow-sm rounded py-3 bg-gradient-purple align-items-center">
-          <div className="col-12 col-md-9 d-flex flex-column justify-content-center">
+    <section className='involved my-5'>
+      <div className='container bg-gradient-purple py-5 shadow-sm rounded'>
+        <div className="row g-4 py-3 align-items-center">
+          <div className="col-12 col-md-9 d-flex flex-column justify-content-center mt-0">
             <h4 className="fw-bold mb-1">Be part of the change</h4>
             <small>Small actions create a more inclusive society</small>
           </div>
           <div className="col-12 col-md-3">
-            <button className="btn btn-success btn fw-bold">
+            <Link className="btn btn-success btn fw-bold" to="/register">
               Get Involved
-            </button>
+            </Link>
           </div>
         </div>
       </div>

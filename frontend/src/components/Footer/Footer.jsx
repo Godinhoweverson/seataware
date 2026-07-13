@@ -9,7 +9,7 @@ function Footer(){
 
                     <div className="col-md-2 mb-2">
                     <h6 className="text-uppercase fw-bold">
-                        <Link href="#" className="text-white text-decoration-none">
+                        <Link to="/" className="text-white text-decoration-none">
                             Home
                         </Link>
                     </h6>
@@ -17,7 +17,7 @@ function Footer(){
 
                     <div className="col-md-2 mb-2">
                     <h6 className="text-uppercase fw-bold">
-                        <Link href="#" className="text-white text-decoration-none">
+                        <Link to="/reports" className="text-white text-decoration-none">
                             Reports
                         </Link>
                     </h6>
@@ -25,7 +25,7 @@ function Footer(){
 
                     <div className="col-md-2 mb-2">
                     <h6 className="text-uppercase fw-bold">
-                        <Link href="#" className="text-white text-decoration-none">
+                        <Link to="/map" className="text-white text-decoration-none">
                             Map
                         </Link>
                     </h6>
@@ -33,7 +33,7 @@ function Footer(){
 
                     <div className="col-md-2 mb-2">
                     <h6 className="text-uppercase fw-bold">
-                        <Link href="#" className="text-white text-decoration-none">
+                        <Link to="/awareness" className="text-white text-decoration-none">
                             Awareness
                         </Link>
                     </h6>
