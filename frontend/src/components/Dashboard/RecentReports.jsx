@@ -44,22 +44,22 @@ function RecentReports(){
                                     <td>{report.issue_type}</td>
                                     <td>
                                           {report.status === "pending" && (
-                                            <span className="badge bg-warning p-2 rounded">
+                                            <span className="badge bg-warning rounded-pill p-2 text-capitalize btn-size">
                                                 {report.status}
                                             </span>
                                         )}
                                         {report.status === "approved" && (
-                                            <span className="badge bg-success p-2 rounded">
+                                            <span className="badge bg-success rounded-pill p-2 text-capitalize btn-size">
                                                 {report.status}
                                             </span>
                                         )}
                                         {report.status === "resolved" && (
-                                            <span className="badge bg-primary p-2 rounded">
+                                            <span className="badge bg-primary rounded-pill p-2 text-capitalize btn-size">
                                                 {report.status}
                                             </span>
                                         )}
                                         {report.status === "rejected" && (
-                                            <span className="badge bg-danger p-2 rounded">
+                                            <span className="badge bg-danger rounded-pill p-2 text-capitalize btn-size">
                                                 {report.status}
                                             </span>
                                         )}

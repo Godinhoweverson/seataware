@@ -98,90 +98,117 @@ function Reports() {
             {message && (
                 <AlertMessage message={message} type={messageType}/>
             )}
-            <div className="reports container mt-5">
-                <div className="row">
-                    <div className="col-12 col-lg-6 d-flex flex-column justify-content-center align-items-start gap-2 mb-3 mb-lg-0">
-                        <div className="reports_header">
-                            <h1 className="display-4 fw-bold text-success">Reports</h1>
-                            <p>View and manage your reports here.</p>
+            <div className="container my-5">
+                <div className="card border-0 shadow-sm rounded-4 overflow-hidden p-2">
+                    <div className="card-header bg-white border-0 pt-4 pb-3">
+                        <div className="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center w-100">
+                            <div>
+                                <span className="badge text-bg-success mb-2 px-4 py-2">
+                                    Reports
+                                </span>
+                                <h1 className="fw-bold mb-1">Reports</h1>
+                                <p className="text-muted mb-0">View and manage your reports here.</p>
+                            </div>
+                            <Link to="/reportsIssue" className="btn btn-success px-4">
+                                Report an Issue
+                            </Link>
                         </div>
                     </div>
-                    <div className="reports_issue_btn col-12 col-lg-6 d-flex align-items-center justify-content-lg-end mb-3 mb-lg-0">
-                        <Link className="issue_btn btn btn-success btn-sm" to="/reportsIssue">Report an Issue</Link>
+                    <Filter setReports={setReports} />
+                    <div className="reports-container container my-5">
+                        {reports.length === 0 ? (
+                            <div className="text-center py-5">
+                            <h3 className="text-muted">No reports found.</h3>
+                            </div>
+                        ) : (
+                            reports.map((report) => {
+                            let img = bus;
+
+                            if (report.transport_type_id === 2) {
+                                img = luas;
+                            } else if (report.transport_type_id === 3) {
+                                img = trainInter;
+                            } else if (report.transport_type_id === 4) {
+                                img = trainComm;
+                            }
+
+                            return (
+                                <div
+                                    key={report.report_id}
+                                    className="report d-flex align-items-start gap-4 w-100 py-3 border-bottom"
+                                    >
+                                    <div className="transport-icon flex-shrink-0">
+                                        <img src={img} alt="Transport" width="80" />
+                                    </div>
+
+                                    <div className="transport-info flex-grow-1">
+                                        <h5 className="fw-bold mb-2">{report.route_name}</h5>
+
+                                        <p className="text-muted mb-2">
+                                        {report.description}
+                                        </p>
+
+                                        <p className="text-muted small mb-0">
+                                        {new Date(report.incident_datetime).toLocaleString()}
+                                        </p>
+                                    </div>
+                                     <div className="transport-icon flex-shrink-0">
+                                            {report.status === "pending" && (
+                                            <span className="badge bg-warning rounded-pill p-2 text-capitalize btn-size">
+                                                {report.status}
+                                            </span>
+                                        )}
+                                        {report.status === "approved" && (
+                                            <span className="badge bg-success rounded-pill p-2 text-capitalize btn-size">
+                                                {report.status}
+                                            </span>
+                                        )}
+                                        {report.status === "resolved" && (
+                                            <span className="badge bg-primary rounded-pill p-2 text-capitalize btn-size">
+                                                {report.status}
+                                            </span>
+                                        )}
+                                        {report.status === "rejected" && (
+                                            <span className="badge bg-danger rounded-pill p-2 text-capitalize btn-size">
+                                                {report.status}
+                                            </span>
+                                        )}
+                                    </div>
+                                  
+                                </div>
+                            );
+                            })
+                        )}
+                    </div>
+                    <div className="card-footer border-0 px-4 py-4 container mb-5 bg-white">
+                        <div className="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3">
+                            <span className="text-muted small">
+                            Page {page} of {totalPages}
+                            </span>
+
+                            <div className="btn-group">
+                            <button
+                                type="button"
+                                className="btn btn-outline-success"
+                                disabled={page === 1}
+                                onClick={() => setPage((currentPage) => currentPage - 1)}
+                            >
+                                Previous
+                            </button>
+
+                            <button
+                                type="button"
+                                className="btn btn-outline-success"
+                                disabled={page === totalPages}
+                                onClick={() => setPage((currentPage) => currentPage + 1)}
+                            >
+                                Next
+                            </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                
-            </div>
-            <Filter setReports={setReports} />
-            <div className="reports-container container my-5">
-                {reports.length === 0 ? (
-                    <div className="text-center py-5">
-                    <h3 className="text-muted">No reports found.</h3>
-                    </div>
-                ) : (
-                    reports.map((report) => {
-                    let img = bus;
-
-                    if (report.transport_type_id === 2) {
-                        img = luas;
-                    } else if (report.transport_type_id === 3) {
-                        img = trainInter;
-                    } else if (report.transport_type_id === 4) {
-                        img = trainComm;
-                    }
-
-                    return (
-                        <div
-                        key={report.report_id}
-                        className="report d-flex align-items-start gap-4 w-100 py-3 border-bottom"
-                        >
-                        <div className="transport-icon flex-shrink-0">
-                            <img src={img} alt="Transport" width="80" />
-                        </div>
-
-                        <div className="transport-info flex-grow-1">
-                            <h5 className="fw-bold mb-2">{report.route_name}</h5>
-
-                            <p className="text-muted mb-2">
-                            {report.description}
-                            </p>
-
-                            <p className="text-muted small mb-0">
-                            {new Date(report.incident_datetime).toLocaleString()}
-                            </p>
-                        </div>
-                        </div>
-                    );
-                    })
-                )}
-            </div>
-            <div className="card-footer border-0 px-4 py-4">
-                <div className="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3">
-                    <span className="text-muted small">
-                    Page {page} of {totalPages}
-                    </span>
-
-                    <div className="btn-group">
-                    <button
-                        type="button"
-                        className="btn btn-outline-success"
-                        disabled={page === 1}
-                        onClick={() => setPage((currentPage) => currentPage - 1)}
-                    >
-                        Previous
-                    </button>
-
-                    <button
-                        type="button"
-                        className="btn btn-outline-success"
-                        disabled={page === totalPages}
-                        onClick={() => setPage((currentPage) => currentPage + 1)}
-                    >
-                        Next
-                    </button>
-                    </div>
-                </div>
-            </div>
+            </div>  
             <Footer/>
         </>
     )

@@ -25,14 +25,15 @@ function MapComponent({compact = false}) {
     loadReports();
   }, []);
 
-  const mapHeight = compact ? "300px" : "600px";
+  const mapHeight = compact ? "300px" : "100%";
 
   return (
     <>
         <MapContainer 
             center={[53.349805, -6.26031]} 
-            zoom={13} 
-            style={{ height: mapHeight, width: "100%"}}
+            zoom={13}
+            className="rounded w-100"
+            style={{ height: mapHeight}}
             >
             <TileLayer
             attribution="&copy; OpenStreetMap contributors"

@@ -1,3 +1,7 @@
+.form-container{
+    min-height: calc(80vh - 180px);
+}
+
 .form-image{
     object-fit: cover;
 }

@@ -74,25 +74,25 @@ function AdminDashBoard(){
             <div className="container my-5 admin-dashboard">
                 <div className="card border-0 shadow-sm rounded-4 overflow-hidden">
                     <div className="card-header bg-white border-0 px-4 pt-4 pb-3">
-                    <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
-                        <div>
-                        <span className="badge text-bg-success mb-2">
-                            Administration
-                        </span>
+                        <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                            <div>
+                            <span className="badge text-bg-success mb-2">
+                                Administration
+                            </span>
 
-                        <h1 className="fw-bold mb-1">
-                            Report Management
-                        </h1>
+                            <h1 className="fw-bold mb-1">
+                                Report Management
+                            </h1>
 
-                        <p className="text-muted mb-0">
-                            Review reports and update their current status.
-                        </p>
+                            <p className="text-muted mb-0">
+                                Review reports and update their current status.
+                            </p>
+                            </div>
+
+                            <span className="badge bg-light text-dark border px-3 py-2">
+                            {reports.length} reports displayed
+                            </span>
                         </div>
-
-                        <span className="badge bg-light text-dark border px-3 py-2">
-                        {reports.length} reports displayed
-                        </span>
-                    </div>
                     </div>
 
                     <div className="card-body p-0">
@@ -139,7 +139,7 @@ function AdminDashBoard(){
 
                                 <td className="py-3">
                                     <span
-                                    className={`badge rounded-pill px-3 py-2 text-capitalize ${getStatusClass(
+                                    className={`badge rounded-pill p-2 text-capitalize btn-size ${getStatusClass(
                                         report.status
                                     )}`}
                                     >

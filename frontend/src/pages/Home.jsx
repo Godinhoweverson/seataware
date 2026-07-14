@@ -95,35 +95,8 @@ function Home() {
       <div className="container">
         <div className="stats-wrapper shadow-sm p-0">
           <div className="row g-3">
-
             <div className="col-12 col-md-4">
-              <div className="stat-card">
-                <div className="stat-icon bg-green-soft">
-                  <img src={busGreen} alt="Green bus icon" />
-                </div>
-                <div>
-                  <h4>{stats?.totalReports || 0}</h4>
-                  <p>Total Reports</p>
-                  <small className="text-success">+10% this month</small>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-12 col-md-4">
-              <div className="stat-card">
-                <div className="stat-icon bg-blue-soft">
-                  <img src={busBlue} alt="Blue bus icon" />
-                </div>
-                <div>
-                  <h4>{stats?.mostReportedRoute?.route_name || "No data"}</h4>
-                  <p>Most Reported Route</p>
-                  <small>{stats?.mostReportedRoute?.total || 0} </small>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-12 col-md-4">
-              <div className="stat-card">
+              <div className="stat-card d-flex justify-content-center">
                 <div className="stat-icon bg-purple-soft">
                   <img src={communityIcon} alt="community icon" />
                 </div>
@@ -134,6 +107,30 @@ function Home() {
                 </div>
               </div>
             </div>
+               <div className="col-12 col-md-4">
+              <div className="stat-card d-flex justify-content-center">
+                <div className="stat-icon bg-green-soft">
+                  <img src={busGreen} alt="Green bus icon" />
+                </div>
+                <div>
+                  <h4>{stats?.totalReports || 0}</h4>
+                  <p>Total Reports</p>
+                  <small className="text-success">+10% this month</small>
+                </div>
+              </div>
+            </div>
+            <div className="col-12 col-md-4">
+              <div className="stat-card d-flex justify-content-center">
+                <div className="stat-icon bg-blue-soft">
+                  <img src={busBlue} alt="Blue bus icon" />
+                </div>
+                <div>
+                  <h4>{stats?.mostReportedRoute?.route_name || "No data"}</h4>
+                  <p>Most Reported Route</p>
+                  <small>{stats?.mostReportedRoute?.total || 0} </small>
+                </div>
+              </div>
+            </div> 
           </div>
         </div>
       </div>
@@ -226,7 +223,7 @@ function Home() {
               </div>
             </div>
             <div className="col-12 col-lg-3 d-flex justify-content-end align-items-end flex-column">
-              <h5 className='fw-bold mb-1'>Recent reports on map</h5>
+              <h5 className='fw-bold mb-3'>Recent reports on map</h5>
               <MapComponent compact={true}/>
               <div className="text-end mt-2">
                 <Link className="text-success fw-bold text-decoration-none" to="/map">
@@ -239,12 +236,12 @@ function Home() {
     </section>
     <section className='involved my-5'>
       <div className='container bg-gradient-purple py-5 shadow-sm rounded'>
-        <div className="row g-4 py-3 align-items-center">
+        <div className="row g-4 p-3 d-flex align-items-center">
           <div className="col-12 col-md-9 d-flex flex-column justify-content-center mt-0">
             <h4 className="fw-bold mb-1">Be part of the change</h4>
             <small>Small actions create a more inclusive society</small>
           </div>
-          <div className="col-12 col-md-3">
+          <div className="col-12 col-md-3 text-end">
             <Link className="btn btn-success btn fw-bold" to="/register">
               Get Involved
             </Link>
