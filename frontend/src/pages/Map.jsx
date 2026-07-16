@@ -11,9 +11,9 @@ function Map() {
       <Navbar />
       <div className="map-container container my-5">
           <div className="map-container card border-0 shadow-sm rounded-4 overflow-hidden p-3 p-md-5 d-flex flex-column">
-              <div className="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center w-100 mb-5">
+              <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-5">
                   <div>
-                      <span className="badge text-bg-success mb-2 px-4 py-2">
+                      <span className="badge text-bg-success mb-2 p-2 rounded">
                           Map
                       </span>
                       <h1 className="fw-bold mb-1">Reports Map</h1>

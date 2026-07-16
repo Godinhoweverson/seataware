@@ -2,6 +2,7 @@
 import Navbar from "../components/Navbar/NavBar.jsx";
 import Footer from "../components/Footer/Footer.jsx";
 import Form from "../components/Form/Form.jsx";
+import AlertMessage from "../components/AlertMessage/AlertMessage.jsx"
 
 //API
 import api from "../../../backend/src/api/api.js";
